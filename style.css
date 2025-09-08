@@ -1,13 +1,11 @@
 /* ===== عام ===== */
 * {margin:0; padding:0; box-sizing:border-box; font-family: 'Noto Kufi Arabic', sans-serif; scroll-behavior: smooth;}
-body {background-color: #1a1a1a; color: #f5f5f5;}
+body {background-color: #1a1a1a; color: #fff;}
 a {text-decoration: none; color: inherit;}
-img {max-width: 100%; display: block;}
 
 /* ===== الهيدر ===== */
 header {
     position: relative;
-    background: url('https://cdn.discordapp.com/attachments/1400909878331183174/1414640797537538059/discord.ggwlrd.png') center/cover no-repeat;
     height: 80vh;
     display: flex;
     justify-content: center;
@@ -15,10 +13,10 @@ header {
     flex-direction: column;
     text-align: center;
     animation: fadeIn 1.5s ease-in-out;
+    background-color: #000; /* إزالة الصورة */
 }
-header img.logo {width: 150px; margin-bottom: 20px;}
 header h1 {font-size: 3rem; margin-bottom: 10px; color:#B20302;}
-header p {font-size: 1.2rem; max-width:600px; margin: 0 auto; color: #ddd;}
+header p {font-size: 1.2rem; max-width:600px; margin: 0 auto; color: #fff;}
 
 /* زر اختيار اللغة */
 .lang-switch {
@@ -30,7 +28,7 @@ header p {font-size: 1.2rem; max-width:600px; margin: 0 auto; color: #ddd;}
 }
 .lang-switch button {
     padding: 8px 12px;
-    background: rgba(0,0,0,0.5);
+    background: #B20302; /* لون الخلفية */
     border: none;
     color: #fff;
     cursor: pointer;
@@ -38,23 +36,23 @@ header p {font-size: 1.2rem; max-width:600px; margin: 0 auto; color: #ddd;}
     font-size: 0.9rem;
     transition: 0.3s;
 }
-.lang-switch button:hover {background: #B20302; color:#fff;}
+.lang-switch button:hover {background: #ff1a1a;}
 
 /* ===== الأقسام ===== */
 section {padding: 60px 20px; max-width: 1200px; margin: auto; animation: fadeInUp 1.2s ease;}
 section h2 {font-size: 2rem; margin-bottom: 20px; color:#B20302; text-align:center;}
-section p {line-height: 1.8; margin-bottom: 20px; text-align:center;}
-.features, .gallery {display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;}
-.feature-box, .gallery img {background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; transition: 0.3s;}
-.feature-box:hover, .gallery img:hover {transform: translateY(-5px); box-shadow: 0 8px 20px rgba(178,3,2,0.3);}
+section p {line-height: 1.8; margin-bottom: 20px; text-align:center; color: #fff;}
+.features {display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;}
+.feature-box {background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; transition: 0.3s;}
+.feature-box:hover {transform: translateY(-5px); box-shadow: 0 8px 20px rgba(178,3,2,0.3);}
 .feature-box h3 {margin-bottom: 10px; color:#B20302;}
 
 /* ===== القوانين ===== */
 .rules {background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px; max-width: 800px; margin: auto;}
-.rules ul {list-style: inside disc; line-height: 1.8;}
+.rules ul {list-style: inside disc; line-height: 1.8; color: #fff;}
 
 /* ===== الفوتر ===== */
-footer {background:#111; padding: 20px; text-align:center; color:#aaa;}
+footer {background:#111; padding: 20px; text-align:center; color:#fff;}
 footer a {color:#B20302; transition: 0.3s;}
 footer a:hover {color:#fff;}
 
