@@ -1,451 +1,1013 @@
-function setLang(lang) {
-    document.documentElement.lang = lang;
-    document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-    
-    document.querySelectorAll('[data-ar]').forEach(el => {
-        el.textContent = (lang === 'ar') ? el.dataset.ar : el.dataset.en;
-    });
-    
-    // حفظ اللغة في الذاكرة
-    window.currentLang = lang;
+/* ===== المتغيرات ===== */
+:root {
+–primary-color: #B20302;
+–secondary-color: #8B0000;
+–accent-color: #DC143C;
+–dark-bg: #0a0a0a;
+–darker-bg: #050505;
+–card-bg: rgba(255, 255, 255, 0.03);
+–text-primary: #ffffff;
+–text-secondary: #b0b0b0;
+–border-color: rgba(255, 255, 255, 0.1);
 }
 
-// ===== القائمة المتجاوبة =====
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
+- {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  }
 
-menuToggle.addEventListener('click', () => {
-    navMenu.classList.toggle('active');
-});
-
-// إغلاق القائمة عند النقر على رابط
-document.querySelectorAll('.nav-menu a').forEach(link => {
-    link.addEventListener('click', () => {
-        navMenu.classList.remove('active');
-    });
-});
-
-// ===== Navbar Scroll Effect =====
-window.addEventListener('scroll', () => {
-    const navbar = document.querySelector('.navbar');
-    if (window.scrollY > 100) {
-        navbar.classList.add('scrolled');
-    } else {
-        navbar.classList.remove('scrolled');
-    }
-});
-
-// ===== بيانات الوظائف =====
-const jobsData = [
-    {
-        id: 32,
-        name: 'نظام اختيار المهنة',
-        category: 'system',
-        icon: 'fa-briefcase',
-        shortDesc: 'نظام اختيار المهنة الأساسي',
-        fullDesc: 'نظام شامل يتيح لك اختيار المهنة المناسبة من بين 60+ وظيفة متنوعة. يمكنك استكشاف الوظائف المختلفة ومعرفة متطلبات كل وظيفة قبل الاختيار.',
-        requirements: ['المستوى 1 فما فوق', 'لا توجد مهنة حالية'],
-        benefits: ['الوصول إلى أنظمة الوظيفة', 'إمكانية الترقي الوظيفي', 'كسب الرواتب']
-    },
-    {
-        id: 33,
-        name: 'نظام تغيير المهنة',
-        category: 'system',
-        icon: 'fa-sync-alt',
-        shortDesc: 'تغيير المهنة في أي وقت',
-        fullDesc: 'يتيح لك هذا النظام تغيير مهنتك الحالية إلى مهنة أخرى. قد يتطلب التغيير دفع رسوم أو فترة انتظار حسب القوانين.',
-        requirements: ['امتلاك مهنة حالية', 'دفع رسوم التغيير'],
-        benefits: ['تجربة وظائف مختلفة', 'المرونة في اختيار المسار']
-    },
-    {
-        id: 34,
-        name: 'نظام التدرج الوظيفي',
-        category: 'system',
-        icon: 'fa-chart-line',
-        shortDesc: 'نظام الترقيات والتقدم المهني',
-        fullDesc: 'نظام متقدم للترقي في الوظيفة من خلال إتمام المهام وتحقيق الإنجازات. كل ترقية تأتي مع مزايا إضافية وراتب أعلى.',
-        requirements: ['الأداء الجيد', 'إتمام المهام المطلوبة', 'الوقت في المهنة'],
-        benefits: ['زيادة الراتب', 'مهام متقدمة', 'مكانة اجتماعية']
-    },
-    {
-        id: 35,
-        name: 'نظام الرواتب',
-        category: 'system',
-        icon: 'fa-dollar-sign',
-        shortDesc: 'نظام دفع الرواتب الأوتوماتيكي',
-        fullDesc: 'نظام آلي لدفع الرواتب حسب الوظيفة والدرجة الوظيفية. يتم الدفع بشكل دوري وفقاً لجدول زمني محدد.',
-        requirements: ['امتلاك وظيفة نشطة', 'العمل بانتظام'],
-        benefits: ['دخل ثابت', 'مكافآت إضافية', 'حوافز الأداء']
-    },
-    {
-        id: 36,
-        name: 'مزارع',
-        category: 'agriculture',
-        icon: 'fa-tractor',
-        shortDesc: 'زراعة المحاصيل وبيعها',
-        fullDesc: 'كن مزارعاً محترفاً! قم بزراعة مختلف المحاصيل مثل القمح والذرة والخضروات. اعتنِ بمزرعتك وحصد المحاصيل وبعها في السوق.',
-        requirements: ['شراء أرض زراعية', 'أدوات الزراعة الأساسية'],
-        benefits: ['دخل مستقر', 'إمكانية التوسع', 'منتجات للبيع'],
-        tasks: ['حرث الأرض', 'زراعة البذور', 'الري والعناية', 'الحصاد', 'البيع في السوق']
-    },
-    {
-        id: 37,
-        name: 'راعي ماشية',
-        category: 'agriculture',
-        icon: 'fa-horse',
-        shortDesc: 'تربية الماشية والخيول',
-        fullDesc: 'قم بتربية الماشية والخيول والأغنام. اعتنِ بالحيوانات، قدم لها الطعام والماء، وبع المنتجات الحيوانية.',
-        requirements: ['مزرعة أو مرعى', 'علف للحيوانات'],
-        benefits: ['منتجات متنوعة', 'دخل جيد', 'تجارة الحيوانات'],
-        tasks: ['إطعام الماشية', 'تنظيف الحظائر', 'جمع المنتجات', 'بيع الحيوانات']
-    },
-    {
-        id: 38,
-        name: 'صائد',
-        category: 'agriculture',
-        icon: 'fa-crosshairs',
-        shortDesc: 'صيد الحيوانات البرية',
-        fullDesc: 'امتهن الصيد في البراري الشاسعة. اصطد الحيوانات البرية وبع جلودها ولحومها في السوق.',
-        requirements: ['بندقية صيد', 'رخصة صيد'],
-        benefits: ['حرية التنقل', 'دخل متغير', 'مواد نادرة'],
-        tasks: ['تتبع الحيوانات', 'الصيد', 'السلخ', 'بيع المنتجات']
-    },
-    {
-        id: 39,
-        name: 'تاجر',
-        category: 'trade',
-        icon: 'fa-store',
-        shortDesc: 'شراء وبيع البضائع',
-        fullDesc: 'كن تاجراً ناجحاً! اشترِ البضائع بسعر منخفض وبعها بربح. سافر بين المدن لإيجاد أفضل الصفقات.',
-        requirements: ['رأس مال أولي', 'عربة نقل'],
-        benefits: ['أرباح عالية', 'مرونة في العمل', 'شبكة علاقات'],
-        tasks: ['شراء البضائع', 'النقل بين المدن', 'البيع بربح', 'إدارة المخزون']
-    },
-    {
-        id: 40,
-        name: 'حداد',
-        category: 'craft',
-        icon: 'fa-hammer',
-        shortDesc: 'صناعة الأدوات المعدنية',
-        fullDesc: 'احترف الحدادة وصنع الأدوات والأسلحة. صمم قطع معدنية مخصصة للزبائن.',
-        requirements: ['ورشة حدادة', 'معدات الحدادة', 'خام الحديد'],
-        benefits: ['حرفة مربحة', 'طلب مستمر', 'زبائن دائمون'],
-        tasks: ['تسخين المعدن', 'الطرق والتشكيل', 'صناعة الأدوات', 'الإصلاح']
-    },
-    {
-        id: 41,
-        name: 'نجار',
-        category: 'craft',
-        icon: 'fa-tools',
-        shortDesc: 'صناعة الأثاث الخشبي',
-        fullDesc: 'صنع الأثاث والهياكل الخشبية. من الطاولات إلى المنازل الكاملة!',
-        requirements: ['ورشة نجارة', 'أدوات النجارة', 'خشب'],
-        benefits: ['إبداع فني', 'مشاريع متنوعة', 'دخل جيد'],
-        tasks: ['قطع الخشب', 'التشكيل', 'التجميع', 'التلميع']
-    },
-    {
-        id: 42,
-        name: 'سائق عربات',
-        category: 'service',
-        icon: 'fa-carriage',
-        shortDesc: 'نقل الركاب والبضائع',
-        fullDesc: 'قدم خدمات النقل للمواطنين. انقل الركاب والبضائع بين المدن والمواقع.',
-        requirements: ['عربة خاصة', 'رخصة قيادة'],
-        benefits: ['نصائح إضافية', 'مرونة في المواعيد', 'التعرف على الناس'],
-        tasks: ['انتظار الزبائن', 'نقل الركاب', 'نقل البضائع', 'صيانة العربة']
-    },
-    {
-        id: 43,
-        name: 'عامل مناجم',
-        category: 'agriculture',
-        icon: 'fa-gem',
-        shortDesc: 'التنقيب عن المعادن',
-        fullDesc: 'اعمل في المناجم واستخرج المعادن الثمينة. ذهب، فضة، أحجار كريمة!',
-        requirements: ['معدات التعدين', 'رخصة التعدين'],
-        benefits: ['إمكانية ثروة سريعة', 'معادن ثمينة', 'مغامرة'],
-        tasks: ['الحفر', 'الاستخراج', 'الفرز', 'البيع']
-    },
-    {
-        id: 44,
-        name: 'طبيب',
-        category: 'medical',
-        icon: 'fa-user-md',
-        shortDesc: 'علاج المرضى والجرحى',
-        fullDesc: 'كن طبيباً محترفاً! عالج المرضى والجرحى، أجرِ العمليات، ووفر الرعاية الصحية.',
-        requirements: ['شهادة طبية', 'عيادة أو مستشفى', 'أدوات طبية'],
-        benefits: ['راتب مرتفع', 'احترام المجتمع', 'إنقاذ الأرواح'],
-        tasks: ['فحص المرضى', 'التشخيص', 'العلاج', 'الجراحة', 'وصف الأدوية']
-    },
-    {
-        id: 45,
-        name: 'ممرض',
-        category: 'medical',
-        icon: 'fa-notes-medical',
-        shortDesc: 'مساعدة الأطباء ورعاية المرضى',
-        fullDesc: 'ساعد الأطباء في رعاية المرضى. قدم الإسعافات الأولية والعناية الطبية الأساسية.',
-        requirements: ['دورة تمريض', 'مستشفى أو عيادة'],
-        benefits: ['وظيفة مطلوبة', 'عمل إنساني', 'تعلم مستمر'],
-        tasks: ['قياس العلامات الحيوية', 'تقديم الأدوية', 'تضميد الجروح', 'مساعدة الطبيب']
-    },
-    {
-        id: 46,
-        name: 'صيدلي',
-        category: 'medical',
-        icon: 'fa-pills',
-        shortDesc: 'بيع الأدوية والعلاجات',
-        fullDesc: 'افتح صيدلية وبع الأدوية والعلاجات الطبية. حضّر الوصفات الطبية للمرضى.',
-        requirements: ['رخصة صيدلية', 'محل تجاري', 'مخزون أدوية'],
-        benefits: ['دخل ثابت', 'خدمة المجتمع', 'عمل آمن'],
-        tasks: ['تحضير الأدوية', 'بيع المنتجات', 'استشارات طبية', 'إدارة المخزون']
-    },
-    {
-        id: 47,
-        name: 'صاحب حانة',
-        category: 'service',
-        icon: 'fa-beer',
-        shortDesc: 'إدارة حانة وتقديم المشروبات',
-        fullDesc: 'امتلك وأدر حانتك الخاصة! قدم المشروبات، استضف الزبائن، ونظم الفعاليات.',
-        requirements: ['شراء أو استئجار حانة', 'رخصة تجارية', 'مخزون مشروبات'],
-        benefits: ['أرباح جيدة', 'مركز اجتماعي', 'فعاليات خاصة'],
-        tasks: ['تقديم المشروبات', 'استقبال الزبائن', 'إدارة الحانة', 'حل النزاعات']
-    },
-    {
-        id: 48,
-        name: 'عازف حانة',
-        category: 'service',
-        icon: 'fa-music',
-        shortDesc: 'الترفيه الموسيقي في الحانات',
-        fullDesc: 'كن عازفاً موسيقياً محترفاً! قدم العروض الموسيقية في الحانات وأسعد الزبائن.',
-        requirements: ['آلة موسيقية', 'موهبة فنية'],
-        benefits: ['إبداع فني', 'نصائح سخية', 'شهرة محلية'],
-        tasks: ['العزف والغناء', 'التفاعل مع الجمهور', 'تقديم العروض']
-    },
-    {
-        id: 49,
-        name: 'مقامر محترف',
-        category: 'service',
-        icon: 'fa-dice',
-        shortDesc: 'المقامرة والألعاب',
-        fullDesc: 'احترف المقامرة! شارك في ألعاب الورق والنرد في الحانات والكازينوهات.',
-        requirements: ['رأس مال للمقامرة', 'مهارات اللعب'],
-        benefits: ['أرباح محتملة كبيرة', 'إثارة ومغامرة', 'مسابقات'],
-        tasks: ['لعب البوكر', 'ألعاب النرد', 'المراهنات', 'البطولات']
-    },
-    {
-        id: 50,
-        name: 'حارس بنك',
-        category: 'security',
-        icon: 'fa-shield-alt',
-        shortDesc: 'حماية البنك والأموال',
-        fullDesc: 'احمِ البنك وأموال المواطنين من اللصوص والمجرمين. كن خط الدفاع الأول!',
-        requirements: ['خبرة أمنية', 'سلاح', 'ترخيص أمني'],
-        benefits: ['راتب ثابت', 'احترام', 'تأمين صحي'],
-        tasks: ['حراسة المبنى', 'مراقبة الزوار', 'منع السرقات', 'الاستجابة للطوارئ']
-    },
-    {
-        id: 51,
-        name: 'حارس قطار',
-        category: 'security',
-        icon: 'fa-train',
-        shortDesc: 'حماية القطارات والركاب',
-        fullDesc: 'احمِ القطارات من قطاع الطرق واللصوص. تأكد من سلامة الركاب والبضائع.',
-        requirements: ['خبرة عسكرية أو أمنية', 'سلاح', 'رخصة'],
-        benefits: ['سفر مجاني', 'راتب جيد', 'إثارة'],
-        tasks: ['حراسة القطار', 'حماية الركاب', 'صد الهجمات', 'التفتيش']
-    },
-    {
-        id: 52,
-        name: 'مراسل صحفي',
-        category: 'service',
-        icon: 'fa-newspaper',
-        shortDesc: 'تغطية الأخبار والأحداث',
-        fullDesc: 'كن صحفياً! غطِ الأحداث المهمة، اكتب المقالات، وانشر الأخبار للمجتمع.',
-        requirements: ['دفتر ملاحظات', 'مهارات الكتابة'],
-        benefits: ['حرية التنقل', 'معلومات حصرية', 'تأثير اجتماعي'],
-        tasks: ['تغطية الأحداث', 'إجراء المقابلات', 'كتابة المقالات', 'النشر']
-    },
-    {
-        id: 53,
-        name: 'مصور',
-        category: 'service',
-        icon: 'fa-camera',
-        shortDesc: 'التصوير الفوتوغرافي',
-        fullDesc: 'التقط الصور المذهلة! صوّر المناظر الطبيعية، الأحداث، والأشخاص.',
-        requirements: ['كاميرا', 'موهبة فنية'],
-        benefits: ['إبداع فني', 'ذكريات خالدة', 'معارض فنية'],
-        tasks: ['التصوير', 'تحميض الصور', 'بيع الصور', 'المعارض']
-    },
-    {
-        id: 54,
-        name: 'دليل صحراوي',
-        category: 'service',
-        icon: 'fa-compass',
-        shortDesc: 'إرشاد المسافرين',
-        fullDesc: 'كن دليلاً للمسافرين في البراري والصحاري. ساعدهم في الوصول لوجهاتهم بأمان.',
-        requirements: ['معرفة بالمنطقة', 'خبرة في البقاء', 'حصان'],
-        benefits: ['مغامرات', 'نصائح سخية', 'معرفة الأسرار'],
-        tasks: ['إرشاد المسافرين', 'التخييم', 'الحماية من المخاطر', 'إيجاد الطرق']
-    },
-    {
-        id: 55,
-        name: 'صياد جوائز',
-        category: 'security',
-        icon: 'fa-user-secret',
-        shortDesc: 'القبض على المطلوبين',
-        fullDesc: 'اقبض على المجرمين الهاربين مقابل مكافآت. وظيفة خطرة لكنها مربحة!',
-        requirements: ['مهارات قتالية', 'سلاح', 'رخصة صيد الجوائز'],
-        benefits: ['مكافآت عالية', 'حرية العمل', 'سمعة قوية'],
-        tasks: ['تتبع المطلوبين', 'القبض عليهم', 'تسليمهم للسلطات', 'جمع المكافآت']
-    },
-    {
-        id: 56,
-        name: 'حارس مدينة',
-        category: 'security',
-        icon: 'fa-user-shield',
-        shortDesc: 'حماية النظام والأمن',
-        fullDesc: 'حافظ على الأمن والنظام في المدينة. اقبض على المجرمين وحمِ المواطنين.',
-        requirements: ['تدريب أمني', 'سلاح', 'شارة حارس'],
-        benefits: ['احترام المجتمع', 'راتب حكومي', 'سلطة قانونية'],
-        tasks: ['الدوريات', 'القبض على المجرمين', 'حل النزاعات', 'حماية المواطنين']
-    },
-    {
-        id: 57,
-        name: 'ساعي بريد',
-        category: 'service',
-        icon: 'fa-envelope',
-        shortDesc: 'توصيل الرسائل والطرود',
-        fullDesc: 'وصّل الرسائل والطرود بين المدن والمواطنين. خدمة بريدية موثوقة!',
-        requirements: ['حصان أو عربة', 'رخصة بريد'],
-        benefits: ['سفر مستمر', 'راتب ثابت', 'خدمة المجتمع'],
-        tasks: ['جمع البريد', 'التوصيل', 'التوقيعات', 'الرحلات بين المدن']
-    },
-    {
-        id: 58,
-        name: 'عامل سكك حديد',
-        category: 'service',
-        icon: 'fa-subway',
-        shortDesc: 'بناء وصيانة السكك الحديدية',
-        fullDesc: 'ساهم في بناء وصيانة خطوط القطارات. وظيفة شاقة لكنها مهمة!',
-        requirements: ['لياقة بدنية', 'أدوات البناء'],
-        benefits: ['راتب جيد', 'عمل جماعي', 'بناء البنية التحتية'],
-        tasks: ['وضع القضبان', 'الصيانة', 'الإصلاح', 'التفتيش']
-    },
-    {
-        id: 59,
-        name: 'بحار نهري',
-        category: 'service',
-        icon: 'fa-ship',
-        shortDesc: 'نقل البضائع نهرياً',
-        fullDesc: 'قد القوارب على الأنهار. انقل البضائع والركاب عبر الممرات المائية.',
-        requirements: ['قارب', 'خبرة في الإبحار'],
-        benefits: ['مناظر طبيعية', 'دخل جيد', 'حرية'],
-        tasks: ['قيادة القارب', 'نقل البضائع', 'نقل الركاب', 'صيانة القارب']
-    },
-    {
-        id: 60,
-        name: 'تاجر خيول',
-        category: 'trade',
-        icon: 'fa-horse-head',
-        shortDesc: 'شراء وبيع الخيول',
-        fullDesc: 'اتجر في الخيول الأصيلة! اشترِ، دَرّب، وبع الخيول بأرباح عالية.',
-        requirements: ['إسطبل', 'معرفة بالخيول', 'رأس مال'],
-        benefits: ['أرباح ممتازة', 'خيول نادرة', 'سمعة تجارية'],
-        tasks: ['شراء الخيول', 'التدريب', 'العناية', 'البيع']
-    }
-];
-
-// ===== عرض الوظائف =====
-const jobsGrid = document.getElementById('jobsGrid');
-const filterBtns = document.querySelectorAll('.filter-btn');
-let currentCategory = 'all';
-
-function displayJobs(category = 'all') {
-    const filteredJobs = category === 'all' 
-        ? jobsData 
-        : jobsData.filter(job => job.category === category);
-    
-    jobsGrid.innerHTML = filteredJobs.map(job => `
-        <div class="job-card" onclick="showJobDetails(${job.id})">
-            <div class="job-icon">
-                <i class="fas ${job.icon}"></i>
-            </div>
-            <h3>${job.name}</h3>
-            <span class="job-category">${getCategoryName(job.category)}</span>
-            <p>${job.shortDesc}</p>
-        </div>
-    `).join('');
+body {
+font-family: ‘Noto Kufi Arabic’, sans-serif;
+background-color: var(–dark-bg);
+color: var(–text-primary);
+line-height: 1.6;
+overflow-x: hidden;
 }
 
-function getCategoryName(category) {
-    const categories = {
-        'system': 'نظام',
-        'agriculture': 'زراعة ورعي',
-        'trade': 'تجارة',
-        'craft': 'حرف',
-        'medical': 'طب',
-        'service': 'خدمات',
-        'security': 'أمن'
-    };
-    return categories[category] || category;
+html {
+scroll-behavior: smooth;
 }
 
-// فلترة الوظائف
-filterBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-        const category = btn.dataset.category;
-        currentCategory = category;
-        displayJobs(category);
-    });
-});
+a {
+text-decoration: none;
+color: inherit;
+}
 
-// عرض تفاصيل الوظيفة
-function showJobDetails(jobId) {
-    const job = jobsData.find(j => j.id === jobId);
-    if (!job) return;
-    
-    const modal = document.getElementById('jobModal');
-    const modalContent = document.getElementById('jobModalContent');
-    
-    modalContent.innerHTML = `
-        <div class="job-details">
-            <div class="job-icon" style="margin: 0 auto 1.5rem;">
-                <i class="fas ${job.icon}"></i>
-            </div>
-            <h2 style="text-align: center; margin-bottom: 0.5rem;">${job.name}</h2>
-            <p style="text-align: center; color: var(--text-secondary); margin-bottom: 2rem;">
-                ${getCategoryName(job.category)}
-            </p>
-            
-            <div style="margin-bottom: 2rem;">
-                <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
-                    <i class="fas fa-info-circle"></i> الوصف
-                </h3>
-                <p style="color: var(--text-secondary); line-height: 1.8;">
-                    ${job.fullDesc}
-                </p>
-            </div>
-            
-            ${job.requirements ? `
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
-                        <i class="fas fa-clipboard-check"></i> المتطلبات
-                    </h3>
-                    <ul style="list-style: none; padding: 0;">
-                        ${job.requirements.map(req => `
-                            <li style="padding: 0.5rem 0; color: var(--text-secondary); display: flex; align-items: center; gap: 0.5rem;">
-                                <i class="fas fa-check" style="color: var(--primary-color);"></i>
-                                ${req}
-                            </li>
-                        `).join('')}
-                    </ul>
-                </div>
-            ` : ''}
-            
-            ${job.benefits ? `
-                <div style="margin-bottom: 2rem;">
-                    <h3 style="color: var(--primary-color); margin-bottom: 1rem;">
-                        <i class="fas fa-star"></i> المزايا
-                    </h3>
-                    <ul style="list-style: none; padding:
+/* ===== القائمة العلوية ===== */
+.navbar {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+background: rgba(10, 10, 10, 0.95);
+backdrop-filter: blur(10px);
+border-bottom: 1px solid var(–border-color);
+z-index: 1000;
+transition: all 0.3s ease;
+}
+
+.navbar.scrolled {
+box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+}
+
+.nav-container {
+max-width: 1400px;
+margin: 0 auto;
+padding: 1rem 2rem;
+display: flex;
+justify-content: space-between;
+align-items: center;
+}
+
+.logo {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 1.5rem;
+font-weight: 700;
+color: var(–primary-color);
+}
+
+.logo i {
+font-size: 2rem;
+}
+
+.nav-menu {
+display: flex;
+gap: 2rem;
+align-items: center;
+}
+
+.nav-menu a {
+color: var(–text-secondary);
+font-weight: 500;
+transition: all 0.3s ease;
+position: relative;
+}
+
+.nav-menu a::after {
+content: ‘’;
+position: absolute;
+bottom: -5px;
+left: 0;
+width: 0;
+height: 2px;
+background: var(–primary-color);
+transition: width 0.3s ease;
+}
+
+.nav-menu a:hover {
+color: var(–primary-color);
+}
+
+.nav-menu a:hover::after {
+width: 100%;
+}
+
+.nav-actions {
+display: flex;
+align-items: center;
+gap: 1rem;
+}
+
+.lang-switch {
+display: flex;
+gap: 0.3rem;
+}
+
+.lang-btn {
+background: var(–card-bg);
+border: 1px solid var(–border-color);
+color: var(–text-secondary);
+padding: 0.4rem 0.7rem;
+border-radius: 6px;
+cursor: pointer;
+transition: all 0.3s ease;
+font-size: 0.85rem;
+font-weight: 500;
+font-family: ‘Noto Kufi Arabic’, sans-serif;
+}
+
+.lang-btn:hover {
+background: var(–primary-color);
+border-color: var(–primary-color);
+color: white;
+transform: scale(1.05);
+}
+
+.lang-btn:active {
+transform: scale(0.95);
+}
+
+.menu-toggle {
+display: none;
+background: none;
+border: none;
+color: var(–text-primary);
+font-size: 1.5rem;
+cursor: pointer;
+}
+
+/* ===== Hero Section ===== */
+header {
+position: relative;
+min-height: 100vh;
+display: flex;
+align-items: center;
+justify-content: center;
+background: linear-gradient(135deg, var(–darker-bg) 0%, var(–dark-bg) 100%);
+overflow: hidden;
+}
+
+header::before {
+content: ‘’;
+position: absolute;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background:
+radial-gradient(circle at 20% 50%, rgba(178, 3, 2, 0.1) 0%, transparent 50%),
+radial-gradient(circle at 80% 80%, rgba(178, 3, 2, 0.1) 0%, transparent 50%);
+z-index: 1;
+}
+
+.hero-content {
+position: relative;
+z-index: 2;
+text-align: center;
+padding: 2rem;
+max-width: 1000px;
+margin: 0 auto;
+}
+
+.hero-badge {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+background: rgba(178, 3, 2, 0.2);
+border: 1px solid var(–primary-color);
+padding: 0.5rem 1.5rem;
+border-radius: 50px;
+margin-bottom: 2rem;
+animation: fadeInDown 1s ease;
+}
+
+.hero-badge i {
+color: var(–primary-color);
+}
+
+header h1 {
+font-size: clamp(3rem, 8vw, 5rem);
+color: var(–primary-color);
+margin-bottom: 1rem;
+text-shadow: 0 0 20px rgba(178, 3, 2, 0.5);
+animation: fadeInUp 1s ease 0.2s backwards;
+}
+
+.hero-subtitle {
+font-size: clamp(1.2rem, 3vw, 1.8rem);
+color: var(–text-secondary);
+margin-bottom: 1rem;
+animation: fadeInUp 1s ease 0.4s backwards;
+}
+
+.hero-description {
+font-size: clamp(1rem, 2vw, 1.2rem);
+color: var(–text-secondary);
+max-width: 700px;
+margin: 0 auto 2rem;
+line-height: 1.8;
+animation: fadeInUp 1s ease 0.6s backwards;
+}
+
+.hero-buttons {
+display: flex;
+gap: 1rem;
+justify-content: center;
+flex-wrap: wrap;
+margin-bottom: 3rem;
+animation: fadeInUp 1s ease 0.8s backwards;
+}
+
+.btn {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+padding: 1rem 2rem;
+border-radius: 10px;
+font-weight: 600;
+transition: all 0.3s ease;
+cursor: pointer;
+border: none;
+}
+
+.btn-primary {
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+color: white;
+}
+
+.btn-primary:hover {
+transform: translateY(-3px);
+box-shadow: 0 10px 30px rgba(178, 3, 2, 0.4);
+}
+
+.btn-secondary {
+background: var(–card-bg);
+color: var(–text-primary);
+border: 1px solid var(–border-color);
+}
+
+.btn-secondary:hover {
+background: var(–primary-color);
+border-color: var(–primary-color);
+transform: translateY(-3px);
+}
+
+.hero-stats {
+display: flex;
+gap: 3rem;
+justify-content: center;
+flex-wrap: wrap;
+animation: fadeInUp 1s ease 1s backwards;
+}
+
+.stat-item {
+text-align: center;
+}
+
+.stat-item i {
+font-size: 2rem;
+color: var(–primary-color);
+margin-bottom: 0.5rem;
+}
+
+.stat-number {
+display: block;
+font-size: 2rem;
+font-weight: 700;
+color: var(–text-primary);
+}
+
+.stat-label {
+display: block;
+color: var(–text-secondary);
+font-size: 0.9rem;
+}
+
+.scroll-indicator {
+position: absolute;
+bottom: 2rem;
+left: 50%;
+transform: translateX(-50%);
+animation: bounce 2s infinite;
+color: var(–primary-color);
+font-size: 2rem;
+z-index: 2;
+}
+
+/* ===== Sections ===== */
+.section {
+padding: 5rem 2rem;
+}
+
+.bg-dark {
+background: var(–darker-bg);
+}
+
+.container {
+max-width: 1400px;
+margin: 0 auto;
+}
+
+.section-header {
+text-align: center;
+margin-bottom: 3rem;
+}
+
+.section-header h2 {
+font-size: clamp(2rem, 5vw, 3rem);
+color: var(–primary-color);
+margin-bottom: 1rem;
+}
+
+.section-header p {
+font-size: 1.2rem;
+color: var(–text-secondary);
+}
+
+/* ===== About Section ===== */
+.about-content {
+max-width: 900px;
+margin: 0 auto;
+}
+
+.about-text h3 {
+font-size: 2rem;
+color: var(–primary-color);
+margin-bottom: 1rem;
+}
+
+.about-text p {
+font-size: 1.1rem;
+line-height: 1.8;
+color: var(–text-secondary);
+margin-bottom: 2rem;
+}
+
+.features-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+gap: 1.5rem;
+}
+
+.feature-item {
+display: flex;
+align-items: center;
+gap: 1rem;
+background: var(–card-bg);
+padding: 1.5rem;
+border-radius: 10px;
+border: 1px solid var(–border-color);
+transition: all 0.3s ease;
+}
+
+.feature-item:hover {
+transform: translateY(-5px);
+border-color: var(–primary-color);
+box-shadow: 0 10px 30px rgba(178, 3, 2, 0.2);
+}
+
+.feature-item i {
+font-size: 2rem;
+color: var(–primary-color);
+}
+
+/* ===== Leaders Section ===== */
+.leaders-grid {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 2rem;
+}
+
+.leader-card {
+background: var(–card-bg);
+padding: 2rem;
+border-radius: 15px;
+text-align: center;
+border: 1px solid var(–border-color);
+transition: all 0.3s ease;
+}
+
+.leader-card:hover {
+transform: translateY(-10px);
+border-color: var(–primary-color);
+box-shadow: 0 15px 40px rgba(178, 3, 2, 0.3);
+}
+
+.leader-icon {
+width: 80px;
+height: 80px;
+margin: 0 auto 1rem;
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.leader-icon i {
+font-size: 2rem;
+color: white;
+}
+
+.leader-card h3 {
+font-size: 1.3rem;
+margin-bottom: 0.5rem;
+color: var(–text-primary);
+}
+
+.leader-card p {
+color: var(–text-secondary);
+}
+
+/* ===== Rules Section ===== */
+.rules-buttons {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+margin-bottom: 3rem;
+}
+
+.rule-btn {
+display: flex;
+gap: 1.5rem;
+background: var(–card-bg);
+padding: 2rem;
+border-radius: 15px;
+border: 2px solid var(–border-color);
+transition: all 0.3s ease;
+position: relative;
+overflow: hidden;
+}
+
+.rule-btn::before {
+content: ‘’;
+position: absolute;
+top: 0;
+left: -100%;
+width: 100%;
+height: 100%;
+background: linear-gradient(90deg, transparent, rgba(178, 3, 2, 0.1), transparent);
+transition: left 0.5s ease;
+}
+
+.rule-btn:hover::before {
+left: 100%;
+}
+
+.rule-btn:hover {
+border-color: var(–primary-color);
+transform: translateY(-5px);
+box-shadow: 0 15px 40px rgba(178, 3, 2, 0.3);
+}
+
+.rule-icon {
+flex-shrink: 0;
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+border-radius: 10px;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.rule-icon i {
+font-size: 1.8rem;
+color: white;
+}
+
+.rule-content {
+flex: 1;
+}
+
+.rule-content h3 {
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
+color: var(–text-primary);
+}
+
+.rule-content p {
+color: var(–text-secondary);
+margin-bottom: 1rem;
+}
+
+.rule-arrow {
+color: var(–primary-color);
+font-size: 1.2rem;
+}
+
+.general-rules {
+max-width: 900px;
+margin: 0 auto;
+background: var(–card-bg);
+padding: 2rem;
+border-radius: 15px;
+border: 1px solid var(–border-color);
+}
+
+.general-rules h3 {
+font-size: 1.8rem;
+color: var(–primary-color);
+margin-bottom: 1.5rem;
+text-align: center;
+}
+
+.rules-list {
+list-style: none;
+display: grid;
+gap: 1rem;
+}
+
+.rules-list li {
+display: flex;
+align-items: flex-start;
+gap: 1rem;
+padding: 1rem;
+background: rgba(255, 255, 255, 0.02);
+border-radius: 10px;
+transition: all 0.3s ease;
+}
+
+.rules-list li:hover {
+background: rgba(178, 3, 2, 0.1);
+transform: translateX(-5px);
+}
+
+.rules-list i {
+color: var(–primary-color);
+font-size: 1.2rem;
+margin-top: 0.2rem;
+}
+
+/* ===== Jobs Section ===== */
+.jobs-filters {
+display: flex;
+gap: 1rem;
+justify-content: center;
+flex-wrap: wrap;
+margin-bottom: 3rem;
+}
+
+.filter-btn {
+background: var(–card-bg);
+border: 1px solid var(–border-color);
+color: var(–text-secondary);
+padding: 0.8rem 1.5rem;
+border-radius: 10px;
+cursor: pointer;
+transition: all 0.3s ease;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+font-family: ‘Noto Kufi Arabic’, sans-serif;
+font-weight: 500;
+}
+
+.filter-btn:hover {
+border-color: var(–primary-color);
+color: var(–primary-color);
+transform: translateY(-2px);
+}
+
+.filter-btn.active {
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+border-color: var(–primary-color);
+color: white;
+}
+
+.jobs-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+gap: 2rem;
+}
+
+.job-card {
+background: var(–card-bg);
+border-radius: 15px;
+border: 1px solid var(–border-color);
+transition: all 0.3s ease;
+cursor: pointer;
+overflow: hidden;
+}
+
+.job-card:hover {
+transform: translateY(-10px);
+border-color: var(–primary-color);
+box-shadow: 0 15px 40px rgba(178, 3, 2, 0.3);
+}
+
+.job-image {
+width: 100%;
+height: 180px;
+object-fit: cover;
+border-radius: 15px 15px 0 0;
+}
+
+.job-body {
+padding: 1.5rem;
+}
+
+.job-icon {
+width: 60px;
+height: 60px;
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+border-radius: 12px;
+display: flex;
+align-items: center;
+justify-content: center;
+margin-bottom: 1rem;
+}
+
+.job-icon i {
+font-size: 1.8rem;
+color: white;
+}
+
+.job-body h3 {
+font-size: 1.3rem;
+margin-bottom: 0.5rem;
+color: var(–text-primary);
+}
+
+.job-body .job-category {
+display: inline-block;
+padding: 0.3rem 0.8rem;
+background: rgba(178, 3, 2, 0.2);
+border-radius: 20px;
+font-size: 0.8rem;
+color: var(–primary-color);
+margin-bottom: 1rem;
+}
+
+.job-body p {
+color: var(–text-secondary);
+font-size: 0.95rem;
+line-height: 1.6;
+}
+
+/* ===== Modal ===== */
+.job-modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+z-index: 2000;
+}
+
+.job-modal.active {
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.modal-overlay {
+position: absolute;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.8);
+backdrop-filter: blur(5px);
+}
+
+.modal-content {
+position: relative;
+background: var(–dark-bg);
+border: 1px solid var(–border-color);
+border-radius: 20px;
+max-width: 700px;
+width: 90%;
+max-height: 80vh;
+overflow-y: auto;
+padding: 3rem;
+z-index: 2001;
+animation: modalSlideIn 0.3s ease;
+}
+
+.modal-close {
+position: absolute;
+top: 1rem;
+left: 1rem;
+background: var(–card-bg);
+border: 1px solid var(–border-color);
+color: var(–text-primary);
+width: 40px;
+height: 40px;
+border-radius: 50%;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: all 0.3s ease;
+}
+
+.modal-close:hover {
+background: var(–primary-color);
+border-color: var(–primary-color);
+}
+
+/* ===== Factions Section ===== */
+.factions-status {
+max-width: 600px;
+margin: 0 auto;
+}
+
+.status-card {
+background: var(–card-bg);
+padding: 3rem 2rem;
+border-radius: 20px;
+border: 2px dashed var(–border-color);
+text-align: center;
+}
+
+.status-icon {
+width: 100px;
+height: 100px;
+margin: 0 auto 1.5rem;
+background: rgba(178, 3, 2, 0.1);
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.status-icon i {
+font-size: 3rem;
+color: var(–primary-color);
+}
+
+.status-card h3 {
+font-size: 1.8rem;
+color: var(–text-primary);
+margin-bottom: 1rem;
+}
+
+.status-card p {
+color: var(–text-secondary);
+margin-bottom: 2rem;
+line-height: 1.8;
+}
+
+/* ===== News Section ===== */
+.news-grid {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+gap: 2rem;
+}
+
+.news-card {
+background: var(–card-bg);
+border-radius: 15px;
+overflow: hidden;
+border: 1px solid var(–border-color);
+transition: all 0.3s ease;
+}
+
+.news-card:hover {
+transform: translateY(-10px);
+border-color: var(–primary-color);
+box-shadow: 0 15px 40px rgba(178, 3, 2, 0.3);
+}
+
+.news-header {
+padding: 1.5rem;
+border-bottom: 1px solid var(–border-color);
+}
+
+.news-date {
+color: var(–primary-color);
+font-size: 0.9rem;
+display: flex;
+align-items: center;
+gap: 0.5rem;
+margin-bottom: 0.5rem;
+}
+
+.news-card h3 {
+font-size: 1.5rem;
+color: var(–text-primary);
+}
+
+.news-body {
+padding: 1.5rem;
+}
+
+.news-body p {
+color: var(–text-secondary);
+line-height: 1.8;
+}
+
+/* ===== Contact Section ===== */
+.contact-cards {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+gap: 2rem;
+max-width: 800px;
+margin: 0 auto;
+}
+
+.contact-card {
+background: var(–card-bg);
+padding: 3rem 2rem;
+border-radius: 20px;
+border: 1px solid var(–border-color);
+text-align: center;
+transition: all 0.3s ease;
+}
+
+.contact-card:hover {
+transform: translateY(-10px);
+border-color: var(–primary-color);
+box-shadow: 0 15px 40px rgba(178, 3, 2, 0.3);
+}
+
+.contact-icon {
+width: 80px;
+height: 80px;
+margin: 0 auto 1.5rem;
+background: linear-gradient(135deg, var(–primary-color), var(–secondary-color));
+border-radius: 50%;
+display: flex;
+align-items: center;
+justify-content: center;
+}
+
+.contact-icon i {
+font-size: 2.5rem;
+color: white;
+}
+
+.contact-card h3 {
+font-size: 1.5rem;
+margin-bottom: 0.5rem;
+}
+
+.contact-card p {
+color: var(–text-secondary);
+margin-bottom: 1.5rem;
+}
+
+.contact-btn {
+display: inline-flex;
+align-items: center;
+gap: 0.5rem;
+color: var(–primary-color);
+font-weight: 600;
+}
+
+/* ===== Footer ===== */
+.footer {
+background: var(–darker-bg);
+border-top: 1px solid var(–border-color);
+padding: 3rem 2rem;
+}
+
+.footer-content {
+display: grid;
+grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+gap: 3rem;
+margin-bottom: 2rem;
+}
+
+.footer-logo {
+display: flex;
+align-items: center;
+gap: 10px;
+font-size: 1.5rem;
+font-weight: 700;
+color: var(–primary-color);
+margin-bottom: 1rem;
+}
+
+.footer-logo i {
+font-size: 2rem;
+}
+
+.footer-section h4 {
+color: var(–primary-color);
+margin-bottom: 1rem;
+}
+
+.footer-section ul {
+list-style: none;
+}
+
+.footer-section ul li {
+margin-bottom: 0.5rem;
+}
+
+.footer-section a {
+color: var(–text-secondary);
+transition: color 0.3s ease;
+}
+
+.footer-section a:hover {
+color: var(–primary-color);
+}
+
+.footer-bottom {
+text-align: center;
+padding-top: 2rem;
+border-top: 1px solid var(–border-color);
+color: var(–text-secondary);
+}
+
+/* ===== Animations ===== */
+@keyframes fadeInDown {
+from {
+opacity: 0;
+transform: translateY(-30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes fadeInUp {
+from {
+opacity: 0;
+transform: translateY(30px);
+}
+to {
+opacity: 1;
+transform: translateY(0);
+}
+}
+
+@keyframes bounce {
+0%, 20%, 50%, 80%, 100% {
+transform: translateY(0) translateX(-50%);
+}
+40% {
+transform: translateY(-10px) translateX(-50%);
+}
+60% {
+transform: translateY(-5px) translateX(-50%);
+}
+}
+
+@keyframes modalSlideIn {
+from {
+opacity: 0;
+transform: scale(0.9);
+}
+to {
+opacity: 1;
+transform: scale(1);
+}
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+.nav-menu {
+position: fixed;
+top: 70px;
+left: -100%;
+width: 100%;
+height: calc(100vh - 70px);
+background: var(–darker-bg);
+flex-direction: column;
+padding: 2rem;
+transition: left 0.3s ease;
+}
+
+
+.nav-menu.active {
+    left: 0;
+}
+
+.menu-toggle {
+    display: block;
+}
+
+.hero-stats {
+    gap: 1.5rem;
+}
+
+.jobs-grid,
+.news-grid {
+    grid-template-columns: 1fr;
+}
+
+.modal-content {
+    padding: 2rem 1.5rem;
+}
+
+
+}
