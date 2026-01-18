@@ -1,46 +1,75 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أرض الغرب - West Land</title>
+  <meta charset="UTF-8">
+  <title>أرض الغرب | West Land</title>
 
-<link href="https://fonts.googleapis.com/css2?family=Noto+Kufi+Arabic:wght@400;600;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
-<link rel="stylesheet" href="style.css">
+  <!-- خط عربي احترافي -->
+  <link href="https://fonts.googleapis.com/css2?family=Changa:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+  <link rel="stylesheet" href="style.css">
 </head>
-
 <body>
 
-<nav class="navbar">
-    <div class="nav-container">
-        <div class="logo">
-            <i class="fas fa-horse-head"></i>
-            <span data-ar="أرض الغرب" data-en="West Land">أرض الغرب</span>
-        </div>
-
-        <div class="nav-menu" id="navMenu">
-            <a href="#home" data-ar="الرئيسية" data-en="Home">الرئيسية</a>
-            <a href="#about" data-ar="عن السيرفر" data-en="About">عن السيرفر</a>
-            <a href="#rules" data-ar="القوانين" data-en="Rules">القوانين</a>
-            <a href="#jobs" data-ar="الوظائف" data-en="Jobs">الوظائف</a>
-        </div>
-
-        <div class="nav-actions">
-            <div class="lang-switch">
-                <button onclick="setLang('ar')" class="lang-btn">عربي</button>
-                <button onclick="setLang('en')" class="lang-btn">EN</button>
-            </div>
-            <button class="menu-toggle" id="menuToggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-    </div>
-</nav>
-
-<header id="home">
-    <h1>أرض الغرب</h1>
+<header class="navbar">
+  <div class="logo">أرض الغرب</div>
+  <div class="lang">
+    <button onclick="setLang('ar')">عربي</button>
+    <button onclick="setLang('en')">EN</button>
+  </div>
 </header>
+
+<section class="hero">
+  <h1 class="hero-title">أرض الغرب</h1>
+  <p class="hero-desc">
+    سيرفر حياة واقعية – Red Dead Redemption 2  
+    <br>Roleplay احترافي بزمن 1907
+  </p>
+  <button class="main-btn">اعرف المزيد</button>
+</section>
+
+<section class="stats">
+  <div class="stat">
+    <i class="fa-solid fa-clock"></i>
+    <h3>24/7</h3>
+    <p>متاح دائمًا</p>
+  </div>
+  <div class="stat">
+    <i class="fa-solid fa-gamepad"></i>
+    <h3>PS4 / PS5</h3>
+    <p>المنصات</p>
+  </div>
+  <div class="stat">
+    <i class="fa-solid fa-users"></i>
+    <h3>+500</h3>
+    <p>لاعب نشط</p>
+  </div>
+</section>
+
+<section class="leaders">
+  <h2>الإدارة</h2>
+  <div class="cards">
+    <div class="card">
+      <i class="fa-solid fa-hat-cowboy"></i>
+      <h3>الإدارة العليا</h3>
+    </div>
+    <div class="card">
+      <i class="fa-solid fa-shield-halved"></i>
+      <h3>الإشراف</h3>
+    </div>
+    <div class="card">
+      <i class="fa-solid fa-scale-balanced"></i>
+      <h3>القضاء</h3>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <p>© 2026 West Land</p>
+</footer>
 
 <script src="script.js"></script>
 </body>
