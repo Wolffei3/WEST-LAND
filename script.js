@@ -1,16 +1,10 @@
 function setLang(lang) {
-  document.documentElement.lang = lang;
-  document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
-
-  document.querySelectorAll('[data-ar]').forEach(el => {
-    el.textContent = lang === 'ar' ? el.dataset.ar : el.dataset.en;
-  });
+  if (lang === "en") {
+    document.documentElement.lang = "en";
+    document.documentElement.dir = "ltr";
+    alert("English version coming soon");
+  } else {
+    document.documentElement.lang = "ar";
+    document.documentElement.dir = "rtl";
+  }
 }
-
-// القائمة المتجاوبة
-const menuToggle = document.getElementById('menuToggle');
-const navMenu = document.getElementById('navMenu');
-
-menuToggle.addEventListener('click', () => {
-  navMenu.classList.toggle('active');
-});
