@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
@@ -11,6 +12,7 @@
 <body>
 
 <!-- القائمة العلوية -->
+
 <nav class="navbar">
     <div class="nav-container">
         <div class="logo">
@@ -28,8 +30,8 @@
         </div>
         <div class="nav-actions">
             <div class="lang-switch">
-                <button onclick="setLang('ar')" class="lang-btn">🇸🇦</button>
-                <button onclick="setLang('en')" class="lang-btn">🇬🇧</button>
+                <button onclick="setLang('ar')" class="lang-btn" title="العربية">عربي</button>
+                <button onclick="setLang('en')" class="lang-btn" title="English">EN</button>
             </div>
             <button class="menu-toggle" id="menuToggle">
                 <i class="fas fa-bars"></i>
@@ -39,6 +41,7 @@
 </nav>
 
 <!-- القسم الرئيسي -->
+
 <header id="home">
     <div class="hero-overlay"></div>
     <div class="hero-content">
@@ -67,7 +70,7 @@
         <div class="hero-stats">
             <div class="stat-item">
                 <i class="fas fa-users"></i>
-                <span class="stat-number">50+</span>
+                <span class="stat-number">500+</span>
                 <span class="stat-label" data-ar="لاعب نشط" data-en="Active Players">لاعب نشط</span>
             </div>
             <div class="stat-item">
@@ -88,6 +91,7 @@
 </header>
 
 <!-- عن السيرفر -->
+
 <section id="about" class="section">
     <div class="container">
         <div class="section-header">
@@ -128,6 +132,7 @@
 </section>
 
 <!-- القادة والمؤسسين -->
+
 <section class="section bg-dark">
     <div class="container">
         <div class="section-header">
@@ -167,19 +172,14 @@
                 <h3>العراب</h3>
                 <p data-ar="قائد" data-en="Leader">قائد</p>
             </div>
-              <div class="leader-card">
+            <div class="leader-card">
                 <div class="leader-icon"><i class="fas fa-chess-knight"></i></div>
                 <h3>بدر</h3>
                 <p data-ar="قائد" data-en="Leader">قائد</p>
             </div>
-              <div class="leader-card">
+            <div class="leader-card">
                 <div class="leader-icon"><i class="fas fa-chess-knight"></i></div>
                 <h3>محمد التوم</h3>
-                <p data-ar="قائد" data-en="Leader">قائد</p>
-            </div>
-              <div class="leader-card">
-                <div class="leader-icon"><i class="fas fa-chess-knight"></i></div>
-                <h3>العنزي</h3>
                 <p data-ar="قائد" data-en="Leader">قائد</p>
             </div>
         </div>
@@ -187,6 +187,7 @@
 </section>
 
 <!-- القوانين -->
+
 <section id="rules" class="section">
     <div class="container">
         <div class="section-header">
@@ -241,6 +242,7 @@
 </section>
 
 <!-- الوظائف -->
+
 <section id="jobs" class="section bg-dark">
     <div class="container">
         <div class="section-header">
@@ -249,48 +251,52 @@
                 اختر مهنتك وابدأ رحلتك في أرض الغرب - 60+ وظيفة متاحة
             </p>
         </div>
-        
-        <div class="jobs-filters">
-            <button class="filter-btn active" data-category="all">
-                <i class="fas fa-th"></i> الكل
-            </button>
-            <button class="filter-btn" data-category="agriculture">
-                <i class="fas fa-tractor"></i> الزراعة والرعي
-            </button>
-            <button class="filter-btn" data-category="trade">
-                <i class="fas fa-store"></i> التجارة
-            </button>
-            <button class="filter-btn" data-category="craft">
-                <i class="fas fa-hammer"></i> الحرف
-            </button>
-            <button class="filter-btn" data-category="medical">
-                <i class="fas fa-heartbeat"></i> الطب
-            </button>
-            <button class="filter-btn" data-category="service">
-                <i class="fas fa-concierge-bell"></i> الخدمات
-            </button>
-            <button class="filter-btn" data-category="security">
-                <i class="fas fa-shield-alt"></i> الأمن
-            </button>
-        </div>
 
-        <div class="jobs-grid" id="jobsGrid">
-            <!-- سيتم ملؤها بواسطة JavaScript -->
-        </div>
+```
+    <div class="jobs-filters">
+        <button class="filter-btn active" data-category="all">
+            <i class="fas fa-th"></i> الكل
+        </button>
+        <button class="filter-btn" data-category="agriculture">
+            <i class="fas fa-tractor"></i> الزراعة والرعي
+        </button>
+        <button class="filter-btn" data-category="trade">
+            <i class="fas fa-store"></i> التجارة
+        </button>
+        <button class="filter-btn" data-category="craft">
+            <i class="fas fa-hammer"></i> الحرف
+        </button>
+        <button class="filter-btn" data-category="medical">
+            <i class="fas fa-heartbeat"></i> الطب
+        </button>
+        <button class="filter-btn" data-category="service">
+            <i class="fas fa-concierge-bell"></i> الخدمات
+        </button>
+        <button class="filter-btn" data-category="security">
+            <i class="fas fa-shield-alt"></i> الأمن
+        </button>
+    </div>
 
-        <div class="job-modal" id="jobModal">
-            <div class="modal-overlay" onclick="closeJobModal()"></div>
-            <div class="modal-content">
-                <button class="modal-close" onclick="closeJobModal()">
-                    <i class="fas fa-times"></i>
-                </button>
-                <div id="jobModalContent"></div>
-            </div>
+    <div class="jobs-grid" id="jobsGrid">
+        <!-- سيتم ملؤها بواسطة JavaScript -->
+    </div>
+
+    <div class="job-modal" id="jobModal">
+        <div class="modal-overlay" onclick="closeJobModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeJobModal()">
+                <i class="fas fa-times"></i>
+            </button>
+            <div id="jobModalContent"></div>
         </div>
     </div>
+</div>
+```
+
 </section>
 
 <!-- الفصائل -->
+
 <section id="factions" class="section">
     <div class="container">
         <div class="section-header">
@@ -320,6 +326,7 @@
 </section>
 
 <!-- الأخبار -->
+
 <section id="news" class="section bg-dark">
     <div class="container">
         <div class="section-header">
@@ -335,6 +342,7 @@
 </section>
 
 <!-- التواصل -->
+
 <section id="contact" class="section">
     <div class="container">
         <div class="section-header">
@@ -357,6 +365,7 @@
 </section>
 
 <!-- Footer -->
+
 <footer class="footer">
     <div class="container">
         <div class="footer-content">
@@ -388,5 +397,6 @@
 </footer>
 
 <script src="script.js"></script>
+
 </body>
 </html>
