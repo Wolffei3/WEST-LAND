@@ -1,925 +1,430 @@
 <!DOCTYPE html>
-
 <html lang="ar" dir="rtl">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>أرض الغرب - West Land | سيرفر Red Dead Redemption 2</title>
-
-<!-- Fonts -->
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
-
-<!-- Font Awesome -->
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer">
-
-<style>
-/* ===== المتغيرات الأساسية ===== */
-:root {
-  --primary: #DC143C;
-  --primary-dark: #8B0000;
-  --primary-darker: #5C0000;
-  --accent: #FF6B6B;
-  --dark: #1a0505;
-  --darker: #0f0303;
-  --card-bg: rgba(30, 5, 5, 0.8);
-  --border: rgba(220, 20, 60, 0.3);
-  --text: #ffffff;
-  --text-secondary: #c5c5c5;
-  --shadow: rgba(220, 20, 60, 0.4);
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-html {
-  scroll-behavior: smooth;
-}
-
-body {
-  font-family: 'Cairo', 'Tajawal', 'Segoe UI', Tahoma, Arial, sans-serif;
-  background: #0f0303;
-  background-image: 
-    radial-gradient(circle at 20% 20%, rgba(220, 20, 60, 0.15) 0%, transparent 50%),
-    radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.15) 0%, transparent 50%),
-    linear-gradient(135deg, #0f0303 0%, #1a0505 50%, #5C0000 100%);
-  background-attachment: fixed;
-  color: var(--text);
-  line-height: 1.7;
-  overflow-x: hidden;
-  min-height: 100vh;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  position: relative;
-  z-index: 1;
-}
-
-/* ===== القائمة العلوية ===== */
-.navbar {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  background: rgba(15, 3, 3, 0.95);
-  backdrop-filter: blur(20px);
-  border-bottom: 2px solid var(--border);
-  z-index: 1000;
-  padding: 1rem 0;
-  box-shadow: 0 5px 30px rgba(0, 0, 0, 0.8);
-  animation: slideDown 0.6s ease;
-}
-
-@keyframes slideDown {
-  from {
-    transform: translateY(-100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0);
-    opacity: 1;
-  }
-}
-
-.nav-container {
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 0 2rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.logo {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.8rem;
-  font-weight: 900;
-  color: var(--primary);
-  cursor: pointer;
-  transition: all 0.3s ease;
-  z-index: 1001;
-}
-
-.logo i {
-  font-size: 2.2rem;
-  filter: drop-shadow(0 0 15px var(--primary));
-  animation: rotateSlow 10s linear infinite;
-}
-
-@keyframes rotateSlow {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-.logo:hover {
-  transform: scale(1.05);
-  filter: drop-shadow(0 0 20px var(--primary));
-}
-
-.burger-menu {
-  display: flex;
-  flex-direction: column;
-  gap: 6px;
-  cursor: pointer;
-  padding: 10px;
-  background: var(--card-bg);
-  border-radius: 12px;
-  border: 2px solid var(--border);
-  transition: all 0.3s ease;
-  z-index: 1001;
-}
-
-.burger-menu:hover {
-  border-color: var(--primary);
-  box-shadow: 0 0 20px var(--shadow);
-}
-
-.burger-line {
-  width: 30px;
-  height: 3px;
-  background: var(--primary);
-  border-radius: 3px;
-  transition: all 0.3s ease;
-}
-
-.burger-menu.active .burger-line:nth-child(1) {
-  transform: rotate(45deg) translateY(12px);
-}
-
-.burger-menu.active .burger-line:nth-child(2) {
-  opacity: 0;
-}
-
-.burger-menu.active .burger-line:nth-child(3) {
-  transform: rotate(-45deg) translateY(-12px);
-}
-
-.nav-menu {
-  position: fixed;
-  top: 0;
-  right: -100%;
-  width: 350px;
-  height: 100vh;
-  background: linear-gradient(135deg, #0f0303, #5C0000);
-  padding: 8rem 2rem 2rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-  transition: right 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  box-shadow: -10px 0 50px rgba(0, 0, 0, 0.8);
-  overflow-y: auto;
-  z-index: 999;
-}
-
-.nav-menu.active {
-  right: 0;
-}
-
-.nav-link {
-  color: var(--text-secondary);
-  text-decoration: none;
-  font-weight: 700;
-  font-size: 1.3rem;
-  padding: 1.2rem 1.5rem;
-  border-radius: 12px;
-  transition: all 0.3s ease;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  border: 2px solid transparent;
-}
-
-.nav-link i {
-  font-size: 1.5rem;
-  color: var(--primary);
-  transition: all 0.3s ease;
-}
-
-.nav-link:hover {
-  background: var(--card-bg);
-  color: var(--primary);
-  border-color: var(--border);
-  transform: translateX(-10px);
-}
-
-.nav-link:hover i {
-  transform: scale(1.2);
-}
-
-/* ===== القسم الرئيسي ===== */
-header {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  margin-top: 80px;
-  background: transparent;
-}
-
-.hero-content {
-  text-align: center;
-  padding: 2rem;
-  max-width: 1000px;
-  animation: fadeInUp 1s ease;
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(50px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.hero-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.8rem;
-  background: rgba(220, 20, 60, 0.3);
-  border: 2px solid var(--primary);
-  padding: 0.8rem 2rem;
-  border-radius: 50px;
-  margin-bottom: 2rem;
-  backdrop-filter: blur(10px);
-  animation: pulse 2s infinite;
-}
-
-@keyframes pulse {
-  0%, 100% {
-    box-shadow: 0 0 20px var(--shadow);
-  }
-  50% {
-    box-shadow: 0 0 40px var(--shadow);
-  }
-}
-
-.hero-badge i {
-  color: var(--primary);
-  font-size: 1.4rem;
-  animation: bounce 2s infinite;
-}
-
-.hero-badge span {
-  color: #ffffff;
-  font-weight: 700;
-}
-
-@keyframes bounce {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.hero-title {
-  font-size: clamp(3.5rem, 10vw, 7rem);
-  font-weight: 900;
-  color: #ffffff;
-  margin-bottom: 1rem;
-  text-shadow: 0 0 30px var(--primary), 0 5px 15px rgba(0,0,0,0.5);
-  letter-spacing: 3px;
-  animation: glow 3s ease-in-out infinite;
-}
-
-@keyframes glow {
-  0%, 100% {
-    text-shadow: 0 0 30px var(--primary), 0 5px 15px rgba(0,0,0,0.5);
-  }
-  50% {
-    text-shadow: 0 0 50px var(--accent), 0 5px 15px rgba(0,0,0,0.5);
-  }
-}
-
-.hero-subtitle {
-  font-size: clamp(1.8rem, 4vw, 2.8rem);
-  font-weight: 700;
-  color: #ffffff;
-  margin-bottom: 2rem;
-  opacity: 0.9;
-}
-
-.hero-description {
-  font-size: clamp(1.1rem, 2vw, 1.4rem);
-  color: #e0e0e0;
-  line-height: 2;
-  max-width: 800px;
-  margin: 0 auto 3rem;
-}
-
-.hero-buttons {
-  display: flex;
-  gap: 1.5rem;
-  justify-content: center;
-  flex-wrap: wrap;
-  margin-bottom: 4rem;
-}
-
-.btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1.3rem 3rem;
-  border-radius: 15px;
-  font-weight: 700;
-  font-size: 1.2rem;
-  transition: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  cursor: pointer;
-  border: none;
-  text-decoration: none;
-  position: relative;
-  overflow: hidden;
-}
-
-.btn::before {
-  content: '';
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: rgba(255, 255, 255, 0.2);
-  border-radius: 50%;
-  transform: translate(-50%, -50%);
-  transition: width 0.6s, height 0.6s;
-}
-
-.btn:hover::before {
-  width: 300px;
-  height: 300px;
-}
-
-.btn-primary {
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  box-shadow: 0 10px 30px var(--shadow);
-}
-
-.btn-primary:hover {
-  transform: translateY(-8px) scale(1.05);
-  box-shadow: 0 15px 50px var(--shadow);
-}
-
-.btn-secondary {
-  background: var(--card-bg);
-  color: var(--text);
-  border: 2px solid var(--border);
-}
-
-.btn-secondary:hover {
-  background: var(--primary);
-  border-color: var(--primary);
-  transform: translateY(-8px) scale(1.05);
-}
-
-/* ===== الأقسام ===== */
-.section {
-  padding: 6rem 0;
-  position: relative;
-  background: transparent;
-}
-
-.section-header {
-  text-align: center;
-  margin-bottom: 5rem;
-  animation: fadeIn 1s ease;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
-
-.section-label {
-  display: inline-block;
-  background: var(--card-bg);
-  color: var(--primary);
-  padding: 0.6rem 1.8rem;
-  border-radius: 50px;
-  font-weight: 700;
-  font-size: 1rem;
-  margin-bottom: 1.5rem;
-  border: 2px solid var(--border);
-  animation: fadeInDown 0.8s ease;
-}
-
-@keyframes fadeInDown {
-  from {
-    opacity: 0;
-    transform: translateY(-20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.section-title {
-  font-size: clamp(2.5rem, 5vw, 4rem);
-  font-weight: 900;
-  color: #ffffff;
-  margin-bottom: 1.5rem;
-  text-shadow: 0 0 20px var(--primary);
-}
-
-.section-desc {
-  font-size: 1.3rem;
-  color: #e0e0e0;
-  max-width: 700px;
-  margin: 0 auto;
-}
-
-/* ===== القادة ===== */
-.leaders-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2.5rem;
-}
-
-.leader-card {
-  background: var(--card-bg);
-  padding: 3rem 2rem;
-  border-radius: 25px;
-  border: 2px solid var(--border);
-  text-align: center;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-}
-
-.leader-card::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(45deg, transparent, rgba(220, 20, 60, 0.1), transparent);
-  transform: rotate(45deg);
-  transition: all 0.6s ease;
-}
-
-.leader-card:hover::before {
-  left: 100%;
-}
-
-.leader-card:hover {
-  transform: translateY(-15px) scale(1.05);
-  border-color: var(--primary);
-  box-shadow: 0 25px 60px var(--shadow);
-}
-
-.leader-avatar {
-  width: 110px;
-  height: 110px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto 1.5rem;
-  border: 4px solid var(--border);
-  transition: all 0.4s ease;
-  animation: float 3s ease-in-out infinite;
-}
-
-@keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
-}
-
-.leader-card:hover .leader-avatar {
-  transform: scale(1.1) rotate(360deg);
-  box-shadow: 0 0 40px var(--shadow);
-}
-
-.leader-avatar i {
-  font-size: 3rem;
-  color: white;
-}
-
-.leader-card h3 {
-  font-size: 1.5rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  color: var(--text);
-}
-
-.leader-role {
-  display: inline-block;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  color: white;
-  padding: 0.5rem 1.5rem;
-  border-radius: 50px;
-  font-size: 1rem;
-  font-weight: 700;
-}
-
-/* ===== صفحة الوظائف ===== */
-.jobs-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-  gap: 3rem;
-}
-
-.job-card {
-  background: var(--card-bg);
-  border-radius: 25px;
-  padding: 2.5rem;
-  border: 2px solid var(--border);
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  cursor: pointer;
-  backdrop-filter: blur(10px);
-  position: relative;
-  overflow: hidden;
-}
-
-.job-card::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(220, 20, 60, 0.1), transparent);
-  transition: left 0.6s ease;
-}
-
-.job-card:hover::after {
-  left: 100%;
-}
-
-.job-card:hover {
-  transform: translateY(-15px) scale(1.03);
-  border-color: var(--primary);
-  box-shadow: 0 25px 60px var(--shadow);
-}
-
-.job-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-radius: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 1.5rem;
-  transition: all 0.4s ease;
-  box-shadow: 0 10px 30px var(--shadow);
-}
-
-.job-card:hover .job-icon {
-  transform: scale(1.1) rotate(5deg);
-  box-shadow: 0 15px 40px var(--shadow);
-}
-
-.job-icon i {
-  font-size: 2.5rem;
-  color: white;
-}
-
-.job-card h3 {
-  font-size: 1.8rem;
-  font-weight: 800;
-  margin-bottom: 1rem;
-  color: var(--primary);
-}
-
-.job-card p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  line-height: 1.8;
-  margin-bottom: 1.5rem;
-}
-
-.job-details {
-  display: flex;
-  flex-direction: column;
-  gap: 0.8rem;
-}
-
-.job-detail-item {
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 0.8rem;
-  background: rgba(0, 0, 0, 0.3);
-  border-radius: 10px;
-  transition: all 0.3s ease;
-}
-
-.job-detail-item:hover {
-  background: rgba(220, 20, 60, 0.1);
-  transform: translateX(-5px);
-}
-
-.job-detail-item i {
-  color: var(--primary);
-  font-size: 1.2rem;
-}
-
-.job-detail-item span {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
-}
-
-/* ===== القوانين ===== */
-.rules-cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
-  gap: 2.5rem;
-  margin-bottom: 4rem;
-}
-
-.rule-card {
-  display: flex;
-  align-items: center;
-  gap: 2rem;
-  background: var(--card-bg);
-  padding: 2.5rem;
-  border-radius: 20px;
-  border: 2px solid var(--border);
-  text-decoration: none;
-  transition: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
-  backdrop-filter: blur(10px);
-}
-
-.rule-card:hover {
-  transform: translateY(-10px) scale(1.02);
-  border-color: var(--primary);
-  box-shadow: 0 20px 50px var(--shadow);
-}
-
-.rule-icon {
-  width: 80px;
-  height: 80px;
-  background: linear-gradient(135deg, var(--primary), var(--primary-dark));
-  border-radius: 15px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-  transition: all 0.4s ease;
-}
-
-.rule-card:hover .rule-icon {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.rule-icon i {
-  font-size: 2.2rem;
-  color: white;
-}
-
-.rule-info h3 {
-  font-size: 1.7rem;
-  font-weight: 800;
-  margin-bottom: 0.8rem;
-  color: var(--text);
-}
-
-.rule-info p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-}
-
-/* ===== Footer ===== */
-.footer {
-  background: var(--darker);
-  border-top: 2px solid var(--border);
-  padding: 4rem 0 2rem;
-  margin-top: 6rem;
-}
-
-.footer-content {
-  text-align: center;
-}
-
-.footer-logo {
-  display: inline-flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 2rem;
-  font-weight: 900;
-  color: var(--primary);
-  margin-bottom: 1.5rem;
-}
-
-.footer-logo i {
-  font-size: 2.5rem;
-}
-
-.footer p {
-  color: var(--text-secondary);
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
-}
-
-.footer-social {
-  display: flex;
-  justify-content: center;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-.social-link {
-  width: 60px;
-  height: 60px;
-  background: var(--card-bg);
-  border: 2px solid var(--border);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--primary);
-  font-size: 1.8rem;
-  text-decoration: none;
-  transition: all 0.4s ease;
-}
-
-.social-link:hover {
-  background: var(--primary);
-  color: white;
-  transform: translateY(-10px) rotate(360deg);
-  box-shadow: 0 10px 30px var(--shadow);
-}
-
-.footer-bottom {
-  border-top: 1px solid var(--border);
-  padding-top: 2rem;
-  color: var(--text-secondary);
-  font-size: 1rem;
-}
-
-/* ===== Responsive ===== */
-@media (max-width: 768px) {
-  .nav-menu {
-    width: 100%;
-  }
-  
-  .jobs-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .leaders-grid {
-    grid-template-columns: 1fr;
-  }
-  
-  .rules-cards {
-    grid-template-columns: 1fr;
-  }
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أرض الغرب | West Land</title>
+
+    <!-- الخطوط -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+
+    <style>
+        /*
+        ==================================================
+        West Land - Dark Red Theme
+        تصميم عربي احترافي بأسلوب الغرب الأمريكي
+        ==================================================
+        */
+
+        /* ===== المتغيرات ===== */
+        :root {
+            --primary: #8B0000;
+            --primary-light: #DC143C;
+            --dark: #0f0303;
+            --darker: #070101;
+            --card: rgba(25, 5, 5, 0.85);
+            --border: rgba(220, 20, 60, 0.35);
+            --text: #ffffff;
+            --text-muted: #cfcfcf;
+            --shadow: rgba(220, 20, 60, 0.45);
+        }
+
+        /* ===== Reset ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(220, 20, 60, 0.15), transparent 40%),
+                radial-gradient(circle at 80% 80%, rgba(139, 0, 0, 0.2), transparent 40%),
+                linear-gradient(135deg, #070101, #1a0505, #3b0000);
+            background-attachment: fixed;
+            color: var(--text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Cairo', sans-serif;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ===== الحاوية ===== */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* ===== Navbar ===== */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: rgba(7, 1, 1, 0.95);
+            border-bottom: 2px solid var(--border);
+            z-index: 1000;
+            backdrop-filter: blur(12px);
+        }
+
+        .nav-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 24px;
+            font-weight: 900;
+            color: var(--primary-light);
+        }
+
+        .logo i {
+            filter: drop-shadow(0 0 15px var(--primary-light));
+        }
+
+        .burger {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            cursor: pointer;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid var(--border);
+            background: var(--card);
+        }
+
+        .burger span {
+            width: 28px;
+            height: 3px;
+            background: var(--primary-light);
+            transition: 0.4s;
+        }
+
+        /* ===== القائمة الجانبية ===== */
+        .side-menu {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 320px;
+            height: 100vh;
+            background: linear-gradient(135deg, #070101, #4b0000);
+            padding: 120px 30px 30px;
+            transition: right 0.5s ease;
+            z-index: 999;
+        }
+
+        .side-menu.active {
+            right: 0;
+        }
+
+        .side-menu a {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 16px;
+            margin-bottom: 10px;
+            background: var(--card);
+            border-radius: 14px;
+            border: 2px solid transparent;
+            font-size: 18px;
+            font-weight: 700;
+            color: var(--text-muted);
+        }
+
+        .side-menu a i {
+            color: var(--primary-light);
+        }
+
+        .side-menu a:hover {
+            border-color: var(--border);
+            color: var(--primary-light);
+            transform: translateX(-6px);
+        }
+
+        /* ===== Hero ===== */
+        header {
+            min-height: calc(100vh - 80px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 80px;
+            text-align: center;
+        }
+
+        .hero-box {
+            max-width: 900px;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 26px;
+            border-radius: 40px;
+            border: 2px solid var(--border);
+            background: var(--card);
+            margin-bottom: 30px;
+        }
+
+        .hero-title {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(135deg, var(--primary-light), #ff8a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .hero-sub {
+            font-size: 26px;
+            font-weight: 700;
+            color: var(--text-muted);
+            margin-bottom: 30px;
+        }
+
+        .hero-desc {
+            font-size: 18px;
+            line-height: 2;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 16px 36px;
+            border-radius: 16px;
+            font-size: 18px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            border: none;
+            cursor: pointer;
+            transition: 0.4s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            box-shadow: 0 10px 40px var(--shadow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-6px);
+        }
+
+        .btn-secondary {
+            background: var(--card);
+            color: var(--text);
+            border: 2px solid var(--border);
+        }
+
+        .btn-secondary:hover {
+            background: var(--primary);
+        }
+
+        /* ===== Sections ===== */
+        .section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-title {
+            font-size: 42px;
+            font-weight: 900;
+            margin-bottom: 16px;
+            color: var(--primary-light);
+        }
+
+        .section-desc {
+            font-size: 18px;
+            color: var(--text-muted);
+        }
+
+        /* ===== Cards ===== */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 24px;
+            padding: 36px 28px;
+            border: 2px solid var(--border);
+            text-align: center;
+            transition: 0.4s;
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px var(--shadow);
+        }
+
+        .card i {
+            font-size: 42px;
+            color: var(--primary-light);
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            font-size: 22px;
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            font-size: 16px;
+            color: var(--text-muted);
+            line-height: 1.8;
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background: var(--darker);
+            border-top: 2px solid var(--border);
+            padding: 60px 0 30px;
+            text-align: center;
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 16px;
+        }
+
+        /* ===== Responsive ===== */
+        @media (max-width: 768px) {
+            .side-menu {
+                width: 100%;
+            }
+
+            .section {
+                padding: 70px 0;
+            }
+
+            .hero-sub {
+                font-size: 20px;
+            }
+        }
+
+    </style>
 </head>
+
 <body>
 
-<!-- القائمة العلوية -->
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-content">
+            <div class="logo">
+                <i class="fas fa-hat-cowboy"></i>
+                <span>أرض الغرب</span>
+            </div>
+            <div class="burger" onclick="toggleMenu()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
 
-<nav class="navbar">
-  <div class="nav-container">
-    <div class="logo">
-      <i class="fas fa-hat-cowboy-side"></i>
-      <span>أرض الغرب</span>
+    <!-- Side Menu -->
+    <div class="side-menu" id="menu">
+        <a href="#home"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#systems"><i class="fas fa-gears"></i> الأنظمة</a>
+        <a href="#leaders"><i class="fas fa-crown"></i> القيادات</a>
+        <a href="#jobs"><i class="fas fa-briefcase"></i> الوظائف</a>
+        <a href="#rules"><i class="fas fa-gavel"></i> القوانين</a>
     </div>
-    <div class="burger-menu" onclick="toggleMenu()">
-      <div class="burger-line"></div>
-      <div class="burger-line"></div>
-      <div class="burger-line"></div>
-    </div>
-  </div>
-</nav>
 
-<!-- قائمة Burger -->
+    <!-- Hero -->
+    <header id="home">
+        <div class="hero-box">
+            <div class="badge">
+                <i class="fas fa-fire"></i>
+                <span>سيرفر ويست لاند الرسمي</span>
+            </div>
+            <h1 class="hero-title">أرض الغرب</h1>
+            <div class="hero-sub">West Land RP</div>
+            <p class="hero-desc">
+                تجربة حياة واقعية فريدة في عالم الغرب الأمريكي  
+                على Red Dead Redemption 2
+            </p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary"><i class="fab fa-discord"></i> انضم الآن</a>
+                <a href="#systems" class="btn btn-secondary"><i class="fas fa-scroll"></i> استكشف الأنظمة</a>
+            </div>
+        </div>
+    </header>
 
-<div class="nav-menu" id="navMenu">
-  <a href="#home" class="nav-link" onclick="toggleMenu()">
-    <i class="fas fa-home"></i>
-    <span>الرئيسية</span>
-  </a>
-  <a href="#leaders" class="nav-link" onclick="toggleMenu()">
-    <i class="fas fa-crown"></i>
-    <span>القادة</span>
-  </a>
-  <a href="#rules" class="nav-link" onclick="toggleMenu()">
-    <i class="fas fa-gavel"></i>
-    <span>القوانين</span>
-  </a>
-  <a href="#jobs" class="nav-link" onclick="toggleMenu()">
-    <i class="fas fa-briefcase"></i>
-    <span>الوظائف</span>
-  </a>
-  <a href="#contact" class="nav-link" onclick="toggleMenu()">
-    <i class="fas fa-envelope"></i>
-    <span>تواصل معنا</span>
-  </a>
-</div>
+    <!-- Systems -->
+    <section id="systems" class="section">
+        <div class="container">
+            <div class="section-header">
+                <h2 class="section-title">أنظمة السيرفر</h2>
+                <p class="section-desc">أنظمة مصممة لتجربة واقعية متكاملة</p>
+            </div>
+            <div class="grid">
+                <div class="card">
+                    <i class="fas fa-id-card"></i>
+                    <h3>نظام الهوية</h3>
+                    <p>هوية شخصية متكاملة لكل لاعب داخل السيرفر.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-coins"></i>
+                    <h3>نظام الاقتصاد</h3>
+                    <p>اقتصاد واقعي يعتمد على العمل والتجارة.</p>
+                </div>
+                <div class="card">
+                    <i class="fas fa-horse"></i>
+                    <h3>نظام الخيول</h3>
+                    <p>تملك وشراء وتطوير الخيول بأسلوب احترافي.</p>
+                </div>
+            </div>
+        </div>
+    </section>
 
-<!-- القسم الرئيسي -->
+    <!-- Footer -->
+    <footer>
+        <p>© 1907 – جميع الحقوق محفوظة | أرض الغرب</p>
+    </footer>
 
-<header id="home">
-  <div class="hero-content">
-    <div class="hero-badge">
-      <i class="fas fa-fire"></i>
-      <span>سيرفر حصري ومميز</span>
-    </div>
-    <h1 class="hero-title">أرض الغرب</h1>
-    <div class="hero-subtitle">West Land</div>
-    <p class="hero-description">
-      تجربة Roleplay فريدة ومميزة على PS4/PS5 للعبة Red Dead Redemption 2
-      <br>
-      انضم لأفضل سيرفر حياة واقعية عربي وابدأ مغامرتك الآن!
-    </p>
-    <div class="hero-buttons">
-      <a href="https://discord.gg/3sqyqzPmvf" target="_blank" class="btn btn-primary">
-        <i class="fab fa-discord"></i>
-        <span>انضم الآن</span>
-      </a>
-      <a href="#jobs" class="btn btn-secondary">
-        <i class="fas fa-briefcase"></i>
-        <span>الوظائف</span>
-      </a>
-    </div>
-  </div>
-</header>
+    <!-- Script -->
+    <script>
+        function toggleMenu() {
+            document.getElementById('menu').classList.toggle('active');
+        }
+    </script>
 
-<!-- القادة -->
-
-<section id="leaders" class="section">
-  <div class="container">
-    <div class="section-header">
-      <span class="section-label">الإدارة</span>
-      <h2 class="section-title">القادة والمؤسسين</h2>
-      <p class="section-desc">تعرف على الفريق الذي يدير السيرفر</p>
-    </div>
-    <div class="leaders-grid">
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-crown"></i>
-        </div>
-        <h3>أبو خالد المطيري - Eagle</h3>
-        <span class="leader-role">المؤسس</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-medal"></i>
-        </div>
-        <h3>راشد الروقي</h3>
-        <span class="leader-role">المؤسس المشارك</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-star"></i>
-        </div>
-        <h3>HERWN</h3>
-        <span class="leader-role">قائد</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-shield"></i>
-        </div>
-        <h3>ياسر</h3>
-        <span class="leader-role">قائد</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-chess-knight"></i>
-        </div>
-        <h3>أبوكولمن</h3>
-        <span class="leader-role">قائد</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-gem"></i>
-        </div>
-        <h3>العراب</h3>
-        <span class="leader-role">قائد</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-trophy"></i>
-        </div>
-        <h3>بدر</h3>
-        <span class="leader-role">قائد</span>
-      </div>
-      <div class="leader-card">
-        <div class="leader-avatar">
-          <i class="fas fa-award"></i>
-        </div>
-        <h3>محمد التوم</h3>
+</body>
+</html>
